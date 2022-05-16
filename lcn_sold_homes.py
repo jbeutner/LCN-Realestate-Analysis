@@ -4,17 +4,15 @@ import json
 import time
 import pandas as pd
 
-
 def fetch():
 
     #Headers will vary depending on browser/computer/OS
     headers = {
-        'accept': ''
+        'accept': '',
         'accept-encoding': '',
         'accept-language': '',
         'cache-control': '',
         'cookie': '',
-        'referer': '',
         'sec-ch-ua': '',
         'sec-ch-ua-mobile': '',
         'sec-ch-ua-platform': '',
@@ -29,20 +27,18 @@ def fetch():
     listings = []
 
     #Insert list of zip codes to search here
-    zip_code_list = ['15201','15203','15204','15205','15206','15207','15208',
-                    '15210','15211','15212','15213','15214','15215','15216',
-                    '15217','15218','15219','15220','15221','15222','15224',
-                    '15226','15227','15232','15233','15234','15235','15236',
-                    '15238']
+    zip_code_list = ['68336','68430','68502','68503','68504','68505','68506','68507','68508',
+                     '68510','68512','68514','68516','68517','68520','68521','68522','68523',
+                     '68524','68526','68528','68531']
 
     #Insert base URL here
-    url = 'https://www.zillow.com/pittsburgh-pa-'
+    url = 'https://www.zillow.com/lincoln-ne-'
 
     #Iterates over list of zip codes in zip code list
     for zip_code in zip_code_list:
 
         #Iterates over the maximum number of pages returned by a search on the site being scraped
-        for p in range(1,21):
+        for p in range(1,11):
             soup = BeautifulSoup(requests.get(url+zip_code+'/sold/'+str(p)+'_p', headers=headers).content,'html.parser')
             data = json.loads(soup.select_one('script[data-zrr-shared-data-key]').contents[0].strip('!<>-'))
 
@@ -65,7 +61,7 @@ def fetch():
     sold_df.columns = ['id','sold_price','zipcode','beds','baths','area','latitude','longitude']
 
     #Export to excel
-    sold_df.to_excel('pgh_sold.xlsx')
+    sold_df.to_excel('lincoln_sold.xlsx')
 
     return sold_df
 fetch()
