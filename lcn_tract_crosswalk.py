@@ -5,13 +5,13 @@ from concurrent.futures import ThreadPoolExecutor
 from tqdm.notebook import tqdm
 
 #Import sold dataframe to obtain list of latitudes and longitudes
-sold_df = pd.read_excel('pgh_sold.xlsx')
+sold_df = pd.read_excel('lincoln_sold_2.xlsx')
 
 #Change id to id_ (id is a reserved word in Python)
-sold_df['id'].rename(columns={'id','id_'},inplace=True)
+sold_df.columns = sold_df.columns.str.replace('id', 'id_')
 
 #Create locations object containing id, latitude, and longitude
-locations = sold_df[['id','latitude','longitude']]
+locations = sold_df[['id_','latitude','longitude']]
 
 #Function to retrieve Census data and turn into dictionary
 def geocode(row):
@@ -35,4 +35,4 @@ with ThreadPoolExecutor() as tpe:
 tract_df = pd.DataFrame.from_records(data)
 
 #export to to_excel
-tract_df.to_excel('tract_crosswalk.xlsx')
+tract_df.to_excel('tract_df.xlsx')
